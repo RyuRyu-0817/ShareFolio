@@ -1,0 +1,192 @@
+{% extends "base_list.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}詳細質問{% endblock %}
+    {% block customcss %}
+    <link href="{% static 'mdeditor/css/editormd.min.css' %}" rel="stylesheet">
+    <link href="{% static 'mdeditor/css/editormd.preview.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+    {% endblock %}  
+</head>
+<body>
+
+    {% block sidecontent %}
+    {% if is_user_liked %}
+    <button type="button" id="ajax-like-for-post" style="border:none;background:none">
+        <!-- すでにイイねしている時はfasクラス -->
+        <i class="fas fa-heart text-danger" id="like-icon"></i>
+        <span id="like-for-post-count">{{ question_post.like_set.count }}</span>
+    </button>
+    {% else %}
+    <button type="button" id="ajax-like-for-post" style="border:none;background:none">
+        <!-- イイねしていないときはfarクラス -->
+        <i class="far fa-heart text-danger" id="like-icon"></i>
+        <span id="like-for-post-count">{{ question_post.likeforquestion_set.count }}</span>
+    </button>
+    {% endif %}
+
+    {% if request.user == question_post.writer %}
+    <a href="{% url 'questionupdate' question_post.pk %}" style="display: block">編集画面</a>
+    <form action="{% url 'questiondelete' question_post.id %}" method="POST">{% csrf_token %}
+        <button class="btn" type="submit" onclick='return confirm("本当に削除しますか？");'>削除</button>
+    </form> 
+    {% endif %}
+    {% endblock %}
+    
+    {% block maincontent %}
+    <div class="post-info">
+        <div class="profile d-flex align-items-center">
+            <div class="profile-img">
+                <a href="{% url 'profile' question_post.writer.id %}">
+                {% if question_post.writer.profile %}
+                <img src="{{ question_post.writer.profile.picture.url }}" alt="投稿者のアイコン" class="rounded-circle" width="40" height="40">
+                {% else %}
+                <img src="{% static 'images/noimage.jpg' %}" alt="投稿者のアイコン" class="rounded-circle" width="40" height="40">
+                {% endif %}
+                </a>
+            </div>
+            <div class="profile-name m-3">
+                <a href="{% url 'profile' question_post.writer.id %}">
+                    {{ question_post.writer }}
+                </a>
+            </div>
+        </div>
+        <h1 class="post-title mb-3 mt-3">{{ question_post.title }}</h1>
+        <ul class="category-list mb-3">
+            {% for category in question_post.category.all %}
+            <li class="category">
+                <a href="{% url 'categorypost' category.pk %}" class="category-link">
+                    {{ category.categoryname }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        <span class="create-date">{{ question_post.createdAt| date:"Y年m月d日"}}</span>
+    </div>
+    <div id="content" class="mb-5">
+    {{ question_post.markdown|safe }}
+        
+    </div>
+    <div class="comments">
+        <p class="comment-title">　コメント({{ comments.count }})</p>
+        <ul class="comment-list">
+            {% for comment in comments %}
+            <li class="comment">
+                <div class="comment-flex d-flex align-items-center justify-content-between">
+                    <div class="comment-profile d-flex align-items-center">               
+                        <div class="comment-profile-img">
+                            <a href="{% url 'profile' comment.writer.id %}">
+                            {% if comment.writer.profile %}
+                                <img src="{{ comment.writer.profile.picture.url }}" alt="投稿者のアイコン" class="rounded-circle" width="40" height="40">
+                            {% else %}
+                                <img src="{% static 'images/noimage.jpg' %}" alt="投稿者のアイコン" class="rounded-circle" width="40" height="40">
+                            {% endif %}
+                            </a>
+                        </div>
+                        <div class="comment-profile-name m-3">
+                            <a href="{% url 'profile' comment.writer.id %}">
+                                {{ comment.writer }}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="comment-date">
+                        {{ comment.createdAt| date:"Y-m-d h:i" }}
+                        {% if request.user == comment.writer %}
+                        <form action="{% url 'questioncommentdelete' comment.id %}" method="POST">{% csrf_token %}
+                            <button class="btn" type="submit" onclick='return confirm("本当に削除しますか？");'>削除</button>
+                        </form> 
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="comment-content pt-3">
+                    <p>{{ comment.content }}</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="comment-form">
+            <div class="comment-title d-flex align-items-center">
+            {% if user %}
+                <img src="{{ user.profile.picture.url }}" alt="投稿者のアイコン" class="rounded-circle" width="40" height="40">
+            {% else %}
+                <img src="{% static 'images/noimage.jpg' %}" alt="投稿者のアイコン" class="rounded-circle" width="40" height="40">
+            {% endif %}
+            <p>　コメントする　</p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil d-block" viewBox="0 0 16 16">
+                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+            </svg>
+            </div>
+            <form method="post">{% csrf_token %}
+                {{ form.media }}
+                {{ form.content }}
+                <input type="submit" value="コメントする">
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+        
+    {% block customjs %}
+    <script src="{% static 'mdeditor/js/jquery.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/editormd.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/marked.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/prettify.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/raphael.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/underscore.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/sequence-diagram.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/flowchart.min.js' %}"></script>
+    <script src="{% static 'mdeditor/js/lib/jquery.flowchart.min.js' %}"></script>
+    <script>
+        $(function () {
+            editormd.markdownToHTML("content", {
+                emoji           : true,
+                taskList        : true,
+                tex             : true, 
+                flowChart       : true,
+                sequenceDiagram : true,
+            });
+            $(".reference-link").each(function (i,obj) {
+                console.log(obj)
+            })
+        })
+    </script>
+    <script type="text/javascript">
+        /* ポストに対するイイね */
+        document.getElementById('ajax-like-for-post').addEventListener('click', e => {
+            e.preventDefault();
+            const url = '{% url "likeforquestion" %}';
+            fetch(url, {
+                method: 'POST',
+                body: `question_post_pk={{ question_post.pk }}`,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+            }).then(response => {
+                return response.json();
+            }).then(response => {
+                const like_count = document.getElementById('like-for-post-count')
+                like_count.textContent = response.like_count
+                const icon = document.getElementById('like-icon')
+                if (response.method == 'create') {
+                    icon.classList.remove('far')
+                    icon.classList.add('fas')
+                    // icon.id = 'like-icon'
+                } else {
+                    icon.classList.remove('fas')
+                    icon.classList.add('far')
+                    // icon.id = 'like-icon'
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+        });
+    </script>
+    {% endblock %}
+  
+</body>
+</html>

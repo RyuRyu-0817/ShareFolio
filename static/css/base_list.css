@@ -1,0 +1,29 @@
+/*--------------------
+サイドバーとメインコンテンツの比率、投稿・質問作成ボタンの設定。
+---------------------*/
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    padding: 0;
+    font-family: inherit;
+    appearance: none;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+.extra-container{
+    width: calc(100% - 100px);
+    margin: 0 auto;
+}
+
+@media (max-width: 992px) {
+    .extra-container {
+        width: calc(100% - 20px);
+        margin: 0 auto;
+    }
+}

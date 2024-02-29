@@ -1,0 +1,207 @@
+/* 検索のマーカ */
+.hilight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+
+/* -----------------------------
+サイドバーにおけるcss 
+--------------------------------*/
+
+.category-ranking-heading{
+    color: #fff;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    gap: 0 7px;
+    margin-bottom: 20px;
+}
+
+.category-heading{
+    font-size: 25px;
+    color: #333;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+
+ol.category-ranking,
+ol.category-ranking ol{
+    counter-reset: list;
+    list-style: none;
+    padding: 0;
+    /* width:350px; */
+    font: 14px/1.6 'arial narrow', sans-serif;
+}
+ol.category-ranking ol{
+  margin: 0 0 0 35px;
+  /* width:315px; */
+}
+
+.category-ranking a{
+    position: relative;
+    display: block;
+    text-decoration: none;
+    padding: 3px 3px 3px 8px;
+    margin: 8px 0 8px 30px;
+    /* color: #333; */
+    font-weight: bold;
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -ms-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    transition: all .3s ease-out; 
+    border-radius: 5px;
+}
+
+.category-ranking a:hover{
+    color: white;
+}   
+
+.category-ranking a:before{
+    content: counter(list);
+    counter-increment: list;
+    position: absolute;   
+    left: -35px;
+    top: 50%;
+    height: 28px;
+    width: 28px;
+    margin-top: -1em;
+    background: white;
+    border-radius: 50%;
+    line-height: 28px;
+    text-align: center;
+    font-weight: bold;
+    color: #212529;
+}
+
+.category-ranking a:after{   
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 50%;
+    margin-top: -6px;
+    border: 6px solid transparent;
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    -ms-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    transition: all .3s ease-out;             
+}
+
+.category-ranking a:hover:after{
+  left: -6px;
+  border-left-color: white;               
+}
+
+
+
+.category-amount{
+    font-weight: lighter;
+}
+
+/* -----------------------------
+メインコンテンツにおけるcss 
+--------------------------------*/
+
+.search-result{
+    color: #333;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.keyword{
+    font-weight: 900;
+}
+
+.article {
+    color: #212529;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    /* margin: 20px; */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.article:not(:last-child){
+    margin-bottom: 20px;
+}
+
+.author {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.author img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.author-name {
+    font-weight: bold;
+}
+
+.create-date {
+    color: #999;
+    font-size: 14px;
+}
+
+/* カテゴリリストのスタイル */
+.category-list {
+    margin-top: 10px;
+    list-style: none; /* リストのマーカーを削除 */
+    margin: 0;
+    padding: 0;
+}
+
+/* カテゴリアイテムのスタイル */
+.category {
+    background: #edeeee;
+    padding: 3px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: inline-block; /* インライン要素として表示 */
+}
+
+.category-link{
+    font-weight: 900;
+    color: #333;
+    text-decoration: none;
+}
+
+/* ホバー時のリンクスタイル */
+.category a:hover {
+    text-decoration: underline; /* ホバー時に下線を表示 */
+}
+
+.title {
+    font-size: 24px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.title a{
+    font-weight: 900;
+    color: #333;
+    text-decoration: none;
+}
+
+/* ホバー時のリンクスタイル */
+.title a:hover {
+    text-decoration: underline; /* ホバー時に下線を表示 */
+}
+
+
+
+
+
+

@@ -1,0 +1,78 @@
+form{
+    margin-bottom: 100px;
+}
+/* タイトル部分 */
+.title-input{
+    width: 100%;
+    padding: 15px;
+    font-size: 25px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+select {
+    width: 100%;
+    padding: 15px;
+    font-size: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.category-input{
+    width: 100%;
+    padding: 15px;
+    font-size: 25px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.js-suggestions{
+    position: relative;
+    width: 200px;
+    cursor: pointer;
+}
+
+.category-list{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.category-item{
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    transition: background-color 0.2s;
+}
+
+.category-item:last-child{
+    border-bottom: none;
+}
+
+.category-item:hover {
+    background-color: #f2f2f2;
+}

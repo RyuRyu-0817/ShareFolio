@@ -1,0 +1,95 @@
+#content{
+    border-radius: 0 0 10px 10px;
+}
+
+#ajax-like-for-post{
+    position: relative;
+    font-size: 30px;
+}
+
+#like-for-post-count{
+    display: block;
+}
+
+.post-info{
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px 10px 0 0;
+}
+.profile-name{
+    font-weight: 900;
+    color: #333;
+    text-decoration: none;
+}
+
+.category-list {
+    margin-top: 10px;
+    list-style: none; 
+    margin: 0;
+    padding: 0;
+}
+
+.category {
+    background: #edeeee;
+    padding: 3px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.category:not(:first-child){
+    margin-left: 10px;
+}
+
+.category-link{
+    font-weight: 900;
+    color: #333;
+    text-decoration: none;
+}
+
+.category a:hover {
+    text-decoration: underline; /* ホバー時に下線を表示 */
+}
+
+.create-date {
+    color: #999;
+    font-size: 14px;
+}
+.post-title {
+    font-size: 24px;
+    font-weight: 900;
+    color: #333;
+}
+
+/*======================================= 
+コメント 
+=========================================*/
+
+
+.comments{
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 20px 0;
+}
+
+.comment-title{
+    color: #333;
+    font-size: 20px;
+    padding-bottom: 20px;
+}
+
+.comment{
+    color: #333;
+    padding: 30px 20px;
+    border-top: 2px solid #212529;
+}
+
+.comment:last-child{
+    margin-bottom: 50px;
+}
+
+
+.comment-form{
+    padding: 0 20px;
+}
+

@@ -1,0 +1,177 @@
+{% extends "base_list.html" %}
+{% load static %}
+
+{% block title %}{% endblock %}
+
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+<link rel="stylesheet" href="{% static 'css/pagination.css' %}">
+{% endblock %}
+
+{% block sidecontent %}
+<div class="profile-card"> 
+    <div class="profile-header">
+        {% if user.profile.picture %}
+        <img src="{{ user.profile.picture.url }}" alt="Profile Image" class="rounded-circle mb-3 p-3 img-fluid" width="130" height="130" style="object-fit: cover;">
+        {% else %}
+        <img src="{% static 'images/noimage.jpg' %}" alt="Profile Image" class="rounded-circle mb-3 p-3 img-fluid" width="130" height="130">
+        {% endif %}
+        <p class="profile-username">{{ user.username }}</p>
+    </div>
+    <div class="profile-description d-flex justify-content-around text-center mt-3">
+        <div class="profile-post">
+            投稿数
+            <p class="profile-post-amount">{{ user_post_amount }}</p>
+        </div>
+        <div class="profile-question">
+            質問数
+            <p class="profile-question-amount">{{ user_question_post_amount }}</p>
+        </div>
+    </div>
+    {% if request.user == user%}
+    <div class="profile-actions">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">アイコンを変える</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+{% block maincontent %}
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title fs-5" id="exampleModalLabel">プロフィール画像のアップロード</p>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="{% url 'profile' user.pk %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal-body">
+                {{ userprofileform.picture }}
+                {{ userprofileform.errors }}
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary" value="アップロード"/>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{ userprofileform.errors }}
+
+    <div class="user-posts mb-5">
+    <p class="user-post-title">　{{ user.username }}さんがした投稿({{ user_post_amount }})</p>
+    {% if user_post_page %}
+        <ul class="user-post-list">
+            {% for post in user_post_page %}
+            <li class="user-post">
+                <div class="user-post-flex d-flex align-items-center justify-content-between">
+                    <div class="user-post-profile d-flex align-items-center">               
+                        <div class="user-post-profile-img">
+                            <a href="{% url 'profile' post.writer.id %}">
+                            {% if post.writer.profile %}
+                                <img src="{{ post.writer.profile.picture.url }}" alt="投稿者のアイコン" class="rounded-circle" width="40" height="40">
+                            {% else %}
+                                <img src="{% static 'images/noimage.jpg' %}" alt="投稿者のアイコン" class="rounded-circle" width="40" height="40">
+                            {% endif %}
+                            </a>
+                        </div>
+                        <div class="user-post-profile-name m-3">
+                            <a href="{% url 'profile' post.writer.id %}">
+                                {{ post.writer }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-post-date">{{ post.createdAt| date:"Y-m-d h:i" }}</div>
+                <ul class="user-post-category-list">
+                    {% for category in post.category.all %}
+                    <li class="user-post-category">
+                        <a href="{% url 'categorypost' category.pk %}" class="category-link">
+                            {{ category.categoryname }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <h2 class="title"><a href="{% url 'postdetail' post.pk %}" class="title-link">{{ post.title }}</a></h2>
+                <div class="likes">
+                    {% if post in likeuser_posts %}
+                    <span class="like"><i class="fas fa-heart text-danger" id="like-icon"></i></span>
+                    {% else %}
+                    <span class="like"><i class="far fa-heart text-danger" id="like-icon"></i></span>
+                    {% endif %}
+                    <span class="like-num">{{ post.like_set.count }}</span>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% include "pagination.html" with queryset=user_post_page num_pages=num_pages_post %}
+        {% else %}
+        <p class="user-posts-nothing">投稿はありません</p>
+        {% endif %}
+    </div>
+    
+    <div class="user-posts">
+        <p class="user-post-title">　{{ user.username }}さんがした質問({{ user_question_post_amount }})</p>
+        {% if user_question_post_page %}
+        <ul class="user-post-list">
+            {% for question_post in user_question_post_page %}
+            <li class="user-post">
+                <div class="user-post-flex d-flex align-items-center justify-content-between">
+                    <div class="user-post-profile d-flex align-items-center">               
+                        <div class="user-post-profile-img">
+                            <a href="{% url 'profile' question_post.writer.id %}">
+                            {% if question_post.writer.profile %}
+                                <img src="{{ question_post.writer.profile.picture.url }}" alt="投稿者のアイコン" class="rounded-circle" width="40" height="40">
+                            {% else %}
+                                <img src="{% static 'images/noimage.jpg' %}" alt="投稿者のアイコン" class="rounded-circle" width="40" height="40">
+                            {% endif %}
+                            </a>
+                        </div>
+                        <div class="user-post-profile-name m-3">
+                            <a href="{% url 'profile' question_post.writer.id %}">
+                                {{ question_post.writer }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-post-date">{{ question_post.createdAt| date:"Y-m-d h:i" }}</div>
+                <ul class="user-post-category-list">
+                    {% for category in question_post.category.all %}
+                    <li class="user-post-category">
+                        <a href="{% url 'categoryquestion' category.pk %}" class="category-link">
+                            {{ category.categoryname }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <h2 class="title"><a href="{% url 'questiondetail' question_post.pk %}" class="title-link">{{ question_post.title }}</a></h2>
+                <div class="likes">
+                    {% if post in like_user_question_posts %}
+                    <span class="like"><i class="fas fa-heart text-danger" id="like-icon"></i></span>
+                    {% else %}
+                    <span class="like"><i class="far fa-heart text-danger" id="like-icon"></i></span>
+                    {% endif %}
+                    <span class="like-num">{{ question_post.likeforquestion_set.count }}</span>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% include "pagination.html" with queryset=user_question_post_page num_pages=num_pages_question_post %}
+
+        {% else %}
+        <p class="user-posts-nothing">質問はありません</p>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+{% block customjs %}
+<script>
+
+</script>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+{% load django_bootstrap5 %}
+
+{% block head_title %}{% trans "ログイン" %}{% endblock %}
+{% block extra_head %}
+<style>
+
+  li{
+    list-style-type: none;
+  }
+
+  .form-signin .form-floating:focus-within {
+    z-index: 2;
+  }
+
+  .form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+</style>
+{% endblock %}
+{% block content %}
+{% get_providers as socialaccount_providers %}
+
+
+<main class="form-main w-100">
+  <h1 class="h3 mb-3">
+    <span class="text-center d-block" style="font-family: 'Dela Gothic One', cursive;">-ShareFolio-</span><br>
+    ログイン
+  </h1>
+  <p>アカウントを持っていない場合は<a href="{{ signup_url }}">新規登録</a></p>
+
+  <form class="login" method="POST" action="{% url 'account_login' %}">{% csrf_token %}
+    <!-- {% bootstrap_form form %} -->
+    {% bootstrap_form form %}
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+    <a class="button secondaryAction d-block mb-4" href="{% url 'account_reset_password' %}">パスワードをお忘れですか?</a>
+    <button class="btn btn-primary w-100 py-2 " type="submit">ログイン</button>
+  </form>
+  <div class="login-or text-center">{% trans 'or' %}</div>
+  {% if socialaccount_providers %}
+  <div class="socialaccount_providers socialaccount_ballot">
+    <ul>
+      {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+    </ul>
+  </div>
+  {% endif %}
+</main>
+{% endblock %}

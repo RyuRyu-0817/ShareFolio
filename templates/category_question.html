@@ -1,0 +1,61 @@
+{% extends "base_list.html" %}
+{% load static %}
+
+{% block title %}質問のカテゴリ{% endblock %}
+
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+<link rel="stylesheet" href="{% static 'css/pagination.css' %}">
+{% endblock %}
+
+{% block search %}
+<form action="{% url 'searchpost' %}" class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">{% csrf_token %}
+  {{ form.keyword }}
+</form>
+{% endblock %}
+
+{% block sidecontent %}
+<p class="category-heading mb-2">{{ categoryname }}　{{ question_posts_num }}件</p>
+{% endblock %}
+
+{% block maincontent %}
+{% if question_post_page %}
+<div class="article-list">
+  {% for question_post in question_post_page %}
+  <article class="article">
+    <div class="author">
+      <a href="{% url 'profile' question_post.writer.id %}">
+        {% if question_post.writer.profile %}
+        <img src="{{ question_post.writer.profile.picture.url }}" alt="投稿者のアイコン">
+        {% else %}
+        <img src="{% static 'images/noimage.jpg' %}" alt="投稿者のアイコン">
+        {% endif %}
+      </a>
+      <span class="author-name">{{ question_post.writer }}</span>
+    </div>
+    <div class="article-info">
+      <span class="create-date">{{ question_post.createdAt| date:"Y年m月d日" }}</span>
+      {% if question_post.category %}
+      <ul class="category-list">
+        {% for cat in question_post.category.all %}
+        <li class="category"><a href="{% url 'categoryquestion' cat.pk%}">{{ cat.categoryname }}</a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      <h2 class="title"><a href="{% url 'questiondetail' question_post.pk %}">{{ question_post.title }}</a></h2>
+      <div class="likes">
+        {% if question_post in like_posts %}
+        <span class="like"><i class="fas fa-heart text-danger" id="like-icon"></i></span>
+        {% else %}
+        <span class="like"><i class="far fa-heart text-danger" id="like-icon"></i></span>
+        {% endif %}
+        <span class="like-num">{{ question_post.likeforquestion_set.count }}</span>
+      </div>
+    </div>
+  </article>
+  {% endfor %}
+  {% include "pagination.html" with queryset=question_post_page num_pages=num_pages %}
+
+</div>
+{% endif %}
+{% endblock %}

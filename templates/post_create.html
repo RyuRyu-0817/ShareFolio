@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}投稿作成{% endblock %}
+
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'css/create.css' %}">
+{% endblock %}
+
+{% block maincontents %}
+<form method="post" action="">{% csrf_token %}
+    {{ form.media }}
+    {{ form.title }}
+    {{ form.content }}
+    {{ form.category }}
+    {{ form.category.errors }}
+    <div class="js-suggestions">
+
+    </div>
+    <p><input type="submit" value="投稿する" class="post-button"></p>
+</form>
+{% endblock %}
+
+{% block customjs %}
+<script>
+    let categorys_obj = JSON.parse('{{ categorys_data|safe }}')
+</script>
+<script src="{% static 'js/suggest.js' %}"></script>
+{% endblock %}

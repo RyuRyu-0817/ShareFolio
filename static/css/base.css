@@ -1,0 +1,22 @@
+.container-fluid{
+    width: calc(100% - 100px);
+    margin: 0 auto;
+}
+
+.parent{
+    display: flex;
+    padding: 20px; 
+    margin-top: 20px;
+}
+
+.extra-container{
+    width: calc(100% - 100px);
+    margin: 0 auto;
+}
+
+@media (max-width: 992px) {
+    .extra-container {
+        width: calc(100% - 20px);
+        margin: 0 auto;
+    }
+}

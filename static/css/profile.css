@@ -1,0 +1,92 @@
+.profile-card {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.profile-header {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 3px solid #adb5b2;
+}
+
+.profile-header img {
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+
+.profile-username {
+    color: #333;
+    font-size: 16px;
+}
+
+.profile-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-actions a {
+    text-decoration: none;
+    color: #0077cc;
+    font-weight: bold;
+}
+
+/*==================================== 
+投稿
+===================================== */
+.user-posts{
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 20px 0;
+}
+
+.user-post-title{
+    color: #333;
+    font-size: 20px;
+    border-bottom: 2px solid #212529;
+    padding-bottom: 20px;
+}
+
+.user-post{
+    color: #333;
+    padding: 10px 20px;
+    border-bottom: 2px solid #212529;
+}
+
+.user-post:last-child{
+    margin-bottom: 50px;
+}
+
+.user-post-date {
+    color: #999;
+    font-size: 14px;
+}
+
+.user-post-category-list {
+    margin-top: 10px;
+    list-style: none; 
+    margin: 0;
+    padding: 0;
+}
+
+.user-post-category {
+    background: #edeeee;
+    padding: 3px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.category-link{
+    font-weight: 900;
+    color: #333;
+}
+
+.user-posts-nothing{
+    color: #333;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}

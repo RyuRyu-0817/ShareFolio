@@ -1,0 +1,143 @@
+{% load static %}
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+    <!-- 全体のフォント -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kosugi&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- サービス名のフォント -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Kosugi&display=swap" rel="stylesheet">
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- デフォルトcss -->
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base_list.css' %}">
+    <!-- カスタムcss -->
+    {% block customcss %}
+    {% endblock %}
+  </head>
+  <!-- 背景色指定 -->
+  <body style="font-family: 'Kosugi', sans-serif;">
+    <header>
+        <div class="py-2 text-bg-dark border-bottom">
+          <div class="extra-container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <h1 class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    <a href="{% url 'home' %}" class="d-flex align-items-center" style="gap: 10px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bootstrap" viewBox="0 0 16 16">
+                            <path d="M5.062 12h3.475c1.804 0 2.888-.908 2.888-2.396 0-1.102-.761-1.916-1.904-2.034v-.1c.832-.14 1.482-.93 1.482-1.816 0-1.3-.955-2.11-2.542-2.11H5.062V12zm1.313-4.875V4.658h1.78c.973 0 1.542.457 1.542 1.237 0 .802-.604 1.23-1.764 1.23H6.375zm0 3.762V8.162h1.822c1.236 0 1.887.463 1.887 1.348 0 .896-.627 1.377-1.811 1.377H6.375z"/>
+                            <path d="M0 4a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V4zm4-3a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V4a3 3 0 0 0-3-3H4z"/>
+                        </svg>
+                        <span class="fs-4" style="font-family: 'Dela Gothic One', cursive;">ShareFolio</span>
+                    </a>
+                </h1>
+                <nav class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                    <li>
+                    <a href="{% url 'home' %}" class="nav-link text-white underline-hover">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-house-door d-block mx-auto mb-1" viewBox="0 0 16 16">
+                            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146ZM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5Z"/>
+                        </svg>
+                        ホーム
+                    </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'questionlist' %}" class="nav-link text-white underline-hover">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-question-circle d-block mx-auto mb-1" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                            </svg>
+                            質問
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link text-white underline-hover">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-clock d-block mx-auto mb-1" viewBox="0 0 16 16">
+                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                            </svg>
+                            タイムライン
+                        </a>
+                        </li>
+                    <li>
+                    <a href="{% url 'postcreate' %}" class="nav-link text-white underline-hover">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil d-block mx-auto mb-1" viewBox="0 0 16 16">
+                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                        </svg>
+                        投稿する
+                    </a>
+                    </li>
+                    <li>
+                    <a href="{% url 'questioncreate' %}" class="nav-link text-white underline-hover">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil d-block mx-auto mb-1" viewBox="0 0 16 16">
+                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                        </svg>
+                        質問する
+                    </a>
+                    </li>
+                </nav>
+            </div>
+          </div>
+        </div>
+        <div class="py-2 border-bottom mb-3">
+            <div class="extra-container d-flex flex-wrap justify-content-center">
+                {% block search %}
+                {% endblock %}
+                {% if request.user.is_authenticated %}
+                <div class="text-end d-flex align-items-center justify-content-center gap-3">
+                    <a href="{% url 'profile' request.user.id %}" class="nav-link text-white">
+                        {% if request.user.profile %}
+                        <img src="{{ request.user.profile.picture.url }}" alt="投稿者のアイコン" class="rounded-circle" width="40" height="40">
+                        {% else %}
+                        <img src="{% static 'images/noimage.jpg' %}" alt="投稿者のアイコン" class="rounded-circle" width="40" height="40">
+                        {% endif %}
+                    </a>
+                    <button type="button" class="btn btn-light text-dark me-2"><a href="{% url 'account_logout' %}">ログアウト</a></button>
+                </div>
+                {% else %}
+                <div class="text-end">
+                    <button type="button" class="btn btn-light text-dark me-2"><a href="{% url 'account_login' %}">ログイン</a></button>
+                    <button type="button" class="btn btn-primary"><a href="{% url 'account_signup' %}">新規登録</a></button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    <main class="extra-container mt-5"> 
+        <div class="row">
+            <aside class="col-lg-3 mb-5">
+                {% block sidecontent %}
+                {% endblock %}
+            </aside>    
+            <section class="col-lg-9">
+                {% block maincontent %}
+                {% endblock %}
+            </section>
+        </div>
+    </main>
+    <footer class="py-3 my-4 container-fluid">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item"><a href="{% url 'home' %}" class="nav-link px-2 text-body-secondary">ホーム</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">タイムライン</a></li>
+            <li class="nav-item"><a href="{% url 'questionlist' %}" class="nav-link px-2 text-body-secondary">質問</a></li>
+            <li class="nav-item"><a href="{% url 'postcreate' %}" class="nav-link px-2 text-body-secondary">投稿する</a></li>
+            <li class="nav-item"><a href="{% url 'questioncreate' %}" class="nav-link px-2 text-body-secondary">質問する</a></li>
+        </ul>
+        <p class="text-center text-body-secondary">&copy; 2023 Company, Inc</p>
+    </footer>
+    {% block customjs %}
+    {% endblock %}
+    <!-- bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/e7e59dfb8e.js" crossorigin="anonymous"></script>
+  </body>
+</html>

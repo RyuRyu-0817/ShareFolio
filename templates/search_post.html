@@ -1,0 +1,88 @@
+{% extends "base_list.html" %}
+{% load static %}
+
+{% block title %}検索{% endblock %}
+
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+<link rel="stylesheet" href="{% static 'css/pagination.css' %}">
+{% endblock %}
+
+{% block search %}
+<form action="{% url 'searchpost' %}" class="col-12 col-lg-auto mb-3 mb-lg-0">{% csrf_token %}
+  {{ form.keywords }}
+</form>
+{% endblock %}
+
+{% block sidecontent %}
+<h2 class="category-ranking-heading">投稿人気カテゴリ</h2>
+{% if category_post_sorted %}
+<ol class="category-ranking">
+  {% for category_post in category_post_sorted %}
+  <li class="category-item"><a href="{% url 'categorypost' category_post.0 %}">{{ category_post.1 }}&nbsp;&nbsp;<span class="category-amount">{{ category_post.2 }}</span></a></li>
+  {% endfor %}
+</ol>
+{% endif %}
+{% endblock %}
+
+{% block maincontent %}
+
+<p class="search-result mb-3">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+  </svg>
+  「
+  {% for keyword in keywords %}
+  <span class="keyword">{{ keyword }}</span>
+  {% endfor %}
+  」
+  の検索結果{{ posts_num }}件
+</p>
+{% if post_page %}
+<div class="article-list">
+  {% for post in post_page %}
+  <article class="article">
+    <div class="author">
+      <a href=""><img src="{% static 'images/noimage.jpg' %}" alt="投稿者のアイコン"></a>
+      <span class="author-name">{{ post.writer }}</span>
+    </div>
+    <div class="article-info">
+      <span class="create-date">{{ post.createdAt| date:"Y年m月d日" }}</span>
+      {% if post.category %}
+      <ul class="category-list">
+        {% for cat in post.category.all %}
+        <li class="category">
+            <a href="{% url 'categorypost' cat.pk %}" class="category-link">
+              {{ cat.categoryname }}
+            </a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      <h2 class="title"><a href="{% url 'postdetail' post.pk %}" class="title-link">{{ post.title }}</a></h2>
+      <div class="likes">
+        {% if post in like_posts %}
+        <span class="like"><i class="fas fa-heart text-danger" id="like-icon"></i></span>
+        {% else %}
+        <span class="like"><i class="far fa-heart text-danger" id="like-icon"></i></span>
+        {% endif %}
+        <span class="like-num">{{ post.like_set.count }}</span>
+      </div>
+    </div>
+  </article>
+  {% endfor %}
+
+  {% include "pagination.html" with queryset=post_page num_pages=num_pages %}
+
+
+  <!-- {% include "pagination.html" with queryset="post_page" csrftoken="csrftoken" keywords="keywords" %} -->
+</div>
+{% endif %}
+{% endblock %}
+
+{% block customjs %}
+<script>
+  const keywords = JSON.parse('{{ keywordsjson|safe }}')
+</script>
+<script src="{% static 'js/hilight.js' %}"></script>
+{% endblock %}

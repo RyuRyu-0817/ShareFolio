@@ -1,0 +1,34 @@
+.Pagination {
+    display: flex;
+    align-items: center;
+  }
+  .Pagination-Item-Link {
+    color: #212529;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    overflow: hidden;
+    background: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.15s linear;
+  }
+  .Pagination-Item-Link-Icon {
+    width: 20px;
+  }
+  .Pagination-Item-Link.isActive {
+    background: #111;
+    /* color: #fff; */
+    pointer-events: none;
+  }
+  .Pagination-Item-Link:not(.isActive):hover {
+    background: #212529;
+    color: #fff;
+  }
+  .Pagination > * + * {
+    margin-left: 8px;
+  }
